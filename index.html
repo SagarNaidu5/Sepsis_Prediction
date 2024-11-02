@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepsis Prediction</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9ecef; /* Light gray background */
+            font-size: 1rem; /* Adjusted font size */
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 15px;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .card-header {
+            background-color: #007bff; /* Header background color */
+            color: white; /* Header text color */
+        }
+        label {
+            font-size: 0.9rem; /* Slightly smaller font size for labels */
+        }
+        #result {
+            margin-top: 20px;
+        }
+        .alert {
+            font-size: 1rem; /* Font size for prediction output */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Sepsis Prediction Tool</h2>
+            </div>
+            <div class="card-body">
+                <form id="predictionForm">
+                    <div class="form-group">
+                        <label for="plasmaGlucose">Plasma Glucose:</label>
+                        <input type="number" class="form-control" id="plasmaGlucose" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodWorkR1">Blood Work R1:</label>
+                        <input type="number" class="form-control" id="bloodWorkR1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodPressure">Blood Pressure:</label>
+                        <input type="number" class="form-control" id="bloodPressure" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodWorkR3">Blood Work R3:</label>
+                        <input type="number" class="form-control" id="bloodWorkR3" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bmi">BMI:</label>
+                        <input type="number" class="form-control" id="bmi" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bloodWorkR4">Blood Work R4:</label>
+                        <input type="number" class="form-control" id="bloodWorkR4" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patientAge">Patient Age:</label>
+                        <input type="number" class="form-control" id="patientAge" required>
+                    </div>
+                    <button type="submit" class="btn btn-custom btn-block">Predict for Single Patient</button>
+                </form>
+                <div id="result" class="mt-4" style="display: none;">
+                    <h4>Prediction Result:</h4>
+                    <div id="predictionOutput" class="alert alert-info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Gather input values
+            const data = {
+                Plasma_glucose: parseFloat(document.getElementById('plasmaGlucose').value),
+                Blood_Work_R1: parseInt(document.getElementById('bloodWorkR1').value),
+                Blood_Pressure: parseInt(document.getElementById('bloodPressure').value),
+                Blood_Work_R3: parseFloat(document.getElementById('bloodWorkR3').value),
+                BMI: parseFloat(document.getElementById('bmi').value),
+                Blood_Work_R4: parseFloat(document.getElementById('bloodWorkR4').value),
+                Patient_age: parseInt(document.getElementById('patientAge').value)
+            };
+
+            // Send data to the API
+            const response = await fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById('predictionOutput').innerHTML = `
+                <strong>${result.output[0].prediction}</strong><br>
+                Probability of Prediction: ${result.output[0]['probability of prediction']}
+            `;
+            document.getElementById('result').style.display = 'block'; // Show result section
+        });
+    </script>
+</body>
+</html>
