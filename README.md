@@ -14,20 +14,21 @@ Scalable and Modular Code: Code structure is modular, making it easy to update t
 # Features Used for Prediction
 The model considers the following clinical features to assess sepsis risk:
 
-Plasma Glucose Level
-Blood Work R1
-Blood Pressure
-Blood Work R3
-BMI (Body Mass Index)
-Blood Work R4
-Patient Age
+- Plasma Glucose Level
+- Blood Work R1
+- Blood Pressure
+- Blood Work R3
+- BMI (Body Mass Index)
+- Blood Work R4
+- Patient Age
 
 # Requirements
-## Python 3.7+
-FastAPI
-Uvicorn
-Pandas, NumPy, Scikit-Learn
-Pickle (for loading the trained model)
+- Python 3.7+
+- FastAPI
+- Uvicorn
+- VS Code
+- Pandas, NumPy, Scikit-Learn
+- Pickle (for loading the trained model)
 
 # Model Training
 The model was trained using a dataset with multiple features, followed by hyperparameter tuning and k-fold cross-validation to ensure optimal performance. The selected model showed the best balance between sensitivity and specificity, ensuring reliable predictions for both positive and negative cases.
