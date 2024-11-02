@@ -21,10 +21,9 @@ Blood Work R3
 BMI (Body Mass Index)
 Blood Work R4
 Patient Age
-Installation and Setup
 
 # Requirements
-Python 3.7+
+## Python 3.7+
 FastAPI
 Uvicorn
 Pandas, NumPy, Scikit-Learn
